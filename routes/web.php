@@ -11,6 +11,8 @@ use function PHPUnit\Framework\callback;
 Route::get("/", [HomeController::class, "index"])->name("home");
 Route::get("/welcome", [HomeController::class, "welcome"])->name("welcome");
 Route::get("/jobs", [JobsController::class, "index"])->name("jobs");
+Route::get("/jobs/detail/{id}", [JobsController::class, "detail"])->name("jobDetail");
+Route::post("/apply-job", [JobsController::class, "applyJob"])->name("applyJob");
 
 // Route::post("/account/process-login",[AccountController::class,"processLogin"])->name("account.processLogin");
 

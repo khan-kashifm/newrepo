@@ -57,8 +57,8 @@
                                             <input {{ in_array($jobType->id, $jobTypeArray) ? 'checked' : '' }}
                                                 class="form-check-input " name="jobType" type="checkbox"
                                                 value="{{ $jobType->id }}" id="job-type-{{ $jobType->id }}">
-                                                <label class="form-check-label "
-                                                    for="job-type-{{ $jobType->id }}">{{ $jobType->name }}</label>
+                                            <label class="form-check-label "
+                                                for="job-type-{{ $jobType->id }}">{{ $jobType->name }}</label>
                                         </div>
                                     @endforeach
                                 @endif
@@ -94,6 +94,8 @@
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary btn-lg">Search</button>
+
+                            <a href="{{ route('jobs') }}" class="btn btn-secondary btn-lg mt-3">Reset</a>
                         </div>
                     </form>
                 </div>
@@ -128,7 +130,8 @@
                                                     </div>
 
                                                     <div class="d-grid mt-3">
-                                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Details</a>
+                                                        <a href="{{ route('jobDetail', $job->id) }}"
+                                                            class="btn btn-primary btn-lg">Details</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -149,9 +152,6 @@
         </div>
     </section>
 
-
-@endsection
-@section('customJs')
     <script>
         $("#searchForm").submit(function(e) {
             e.preventDefault();
@@ -162,12 +162,12 @@
             var location = $("#location").val();
             var category = $("#category").val();
             var experience = $("#experience").val();
-
+            var sort = $("#sort").val();
             var checkedJobTypes = $("input:checkbox[name='jobType']:checked").map(function() {
                 return $(this).val();
             }).get();
 
-            var sort =$("$sort").val();
+
 
             //if keyword has a value
             if (keyword != "") {
@@ -199,13 +199,14 @@
 
             }
 
-
+            // for sorting latest and oldest
             url += '&sort=' + sort;
-
 
 
             window.location.href = url;
 
         });
     </script>
+@endsection
+@section('customJs')
 @endsection
