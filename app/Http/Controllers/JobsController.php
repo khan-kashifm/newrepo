@@ -41,9 +41,10 @@ class JobsController extends Controller
 
 
         //Search using JobType
-
+        $jobTypeArray=[];
         if (!empty($request->jobType)) {
             $jobTypeArray = explode(',',$request->jobType);
+            // $jobTypeArray = array_map('intval', explode(',', $request->jobType));
             $jobs=$jobs->whereIn('job_type_id',$jobTypeArray);
         }
 
@@ -62,6 +63,8 @@ class JobsController extends Controller
             'categories' => $categories,
             'jobTypes' => $jobTypes,
             'jobs' => $jobs,
+            'jobTypeArray'=>$jobTypeArray,
         ]);
     }
 }
+
