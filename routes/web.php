@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobsController;
 use Illuminate\Support\Facades\Route;
 
 use function PHPUnit\Framework\callback;
@@ -9,6 +10,7 @@ use function PHPUnit\Framework\callback;
 
 Route::get("/", [HomeController::class, "index"])->name("home");
 Route::get("/welcome", [HomeController::class, "welcome"])->name("welcome");
+Route::get("/jobs", [JobsController::class, "index"])->name("jobs");
 
 // Route::post("/account/process-login",[AccountController::class,"processLogin"])->name("account.processLogin");
 

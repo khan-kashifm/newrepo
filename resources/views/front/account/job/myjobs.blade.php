@@ -1,6 +1,7 @@
+@extends('front.layouts.app')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@extends('front.layouts.app')
+
 @section('main')
 
 
@@ -115,11 +116,11 @@
             </div>
             </div>
         </section>
-
+@endsection
 
         <script>
             function deleteJob(jobId) {
-                alert(jobId);
+                
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this!",
