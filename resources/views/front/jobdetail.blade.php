@@ -47,7 +47,8 @@
                                 </div>
                                 <div class="jobs_right">
                                     <div class="apply_now">
-                                        <a class="heart_mark" href="#"> <i class="fa fa-heart-o"
+                                        <a class="heart_mark" href="javascript:void(0);"
+                                            onclick="saveJob({{ $job->id }})"> <i class="fa fa-heart-o"
                                                 aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -78,12 +79,18 @@
                             </div>
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
-                                <a href="#" class="btn btn-secondary">Save</a>
+
+                                @if (Auth::check())
+                                    <a href="#" onclick="saveJob({{ $job->id }})"
+                                        class="btn btn-primary">Save</a>
+                                @else
+                                    <a href="{{ route('account.login') }}" class="btn btn-primary">Login to Save Job</a>
+                                @endif
                                 @if (Auth::check())
                                     <a href="#" onclick="applyJob({{ $job->id }})"
                                         class="btn btn-primary">Apply</a>
                                 @else
-                                    <a href="javascript:void(0)" class="btn btn-primary-disabled">Login to Apply</a>
+                                    <a href="{{ route('account.login') }}" class="btn btn-primary">Login to Apply</a>
                                 @endif
                             </div>
                         </div>
@@ -129,23 +136,42 @@
     </section>
 
 
-     <script type="text/javascript">
+    <script type="text/javascript">
         function applyJob(id) {
             // alert(id)
             if (confirm("Are you sure you want to apply for this Job")) {
                 $.ajax({
-                        url: '{{ route("applyJob") }}',
-                        type: 'post',
-                        data: { id: id   },
-                        dataType: 'json',
-                        success: function(response){
+                    url: '{{ route('applyJob') }}',
+                    type: 'post',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function(response) {
                         window.location.reload();
 
                     }
                 });
+            }
         }
-    }
-    </script> 
+
+        function saveJob(id) {
+
+            $.ajax({
+                url: '{{ route('savedJob') }}',
+                type: 'post',
+                data: {
+                    id: id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    window.location.reload();
+
+                }
+            });
+
+        }
+    </script>
 
 
     {{-- <script type="text/javascript">
@@ -175,6 +201,4 @@
             }
         }
     </script> --}}
-    
-
 @endsection

@@ -12,7 +12,7 @@ Route::get("/", [HomeController::class, "index"])->name("home");
 Route::get("/welcome", [HomeController::class, "welcome"])->name("welcome");
 Route::get("/jobs", [JobsController::class, "index"])->name("jobs");
 Route::get("/jobs/detail/{id}", [JobsController::class, "detail"])->name("jobDetail");
-Route::post("/apply-job", [JobsController::class, "applyJob"])->name("applyJob");
+
 
 // Route::post("/account/process-login",[AccountController::class,"processLogin"])->name("account.processLogin");
 
@@ -43,6 +43,9 @@ Route::group(['account'], function () {
         Route::post("/account/delete-job", [AccountController::class, "deleteJob"])->name("account.deleteJob");
         Route::get("/account/my-job-applications", [AccountController::class, "myJobApplications"])->name("myJobApplications");
         Route::post("/account/remove-job", [AccountController::class, "removeJobs"])->name("account.removeJob");
+        Route::get("/account/saved-jobs", [AccountController::class, "savedJobs"])->name("account.savedJobs");
+        Route::post("/apply-job", [JobsController::class, "applyJob"])->name("applyJob");
+        Route::post("/saved-job", [JobsController::class, "savedJob"])->name("savedJob");
 
     });
 });
