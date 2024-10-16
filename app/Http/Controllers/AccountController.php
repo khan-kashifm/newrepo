@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\JobType;
 use App\Models\User;
 use App\Models\Job;
+use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -369,7 +370,47 @@ class AccountController extends Controller
         session()->flash('success', 'Job deleted successfully');
     
      
+    }
+
+
+    public function myJobApplications()
+    {
+
+        $jobApplications = JobApplication::where('user_id', Auth::user()->id)->with('job','job.jobType')->orderBy('created_at', 'DESC')->paginate(10);
+
+        // dd($jobs);
+        return view("front.account.job.my-job-applications", [
+            'jobApplications' => $jobApplications
+        ]);
+        
+    }
+
+
+    public function removeJobs(Request $request)
+    {
+        // dd($request->all());
+        
+        $jobApplication = JobApplication::where([
+            'job_id' => $request->id,
+            'user_id'=> Auth::user()->id
+            
+        ])->first();
     
+    //   dd($request->all());
+
+        if ($jobApplication === null) {
+           
+            session()->flash('error', 'Either Job deleted or not found');
+            return response()->json([
+                'status' => 'false', 
+                'message' => 'Job not found or already deleted'
+            ]);
+        }
+        JobApplication::where('job_id', $request->id)->delete();
+
+        session()->flash('success', 'Job Deleted Successfully');
+    
+     
     }
 
 

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\User;
 use App\Models\JobType;
 use App\Models\Category;
-use App\Models\JobApplication;
 use Illuminate\Http\Request;
+use App\Models\JobApplication;
+use App\Mail\JobNotificationEmail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 
 class JobsController extends Controller
@@ -109,10 +112,11 @@ class JobsController extends Controller
         $employer_id = $job->user_id;
 
         if ($employer_id == Auth::user()->id) {
-            session()->flash('error', 'You can not apply on your own Job');
+            $message='You can not apply on your own Job.';
+            session()->flash('error',$message);
             return response()->json([
                 'status' => 'false',
-                'message' => 'You can not apply on your own Job.',
+                'message' => $message,
 
             ]);
         }
@@ -141,6 +145,18 @@ class JobsController extends Controller
         $application->employer_id=$employer_id;
         $application->applied_date=now();
         $application->save();
+
+        //Send notification mail to employee
+        $employer=User::where('id',$employer_id )->first();
+
+        $mailData=[
+            'employer'=>$employer,
+            'user'=>Auth::user(),
+            'job'=>$job,
+        ];
+
+        // Mail::to()->send(new JobNotificationEmail($mailData));
+        Mail::to($employer->email)->send(new JobNotificationEmail($mailData));
 
         session()->flash('success', 'You have successfully applied for this Job.');
         return response()->json([

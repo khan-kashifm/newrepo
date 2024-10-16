@@ -41,11 +41,11 @@
                         <div class="card-body card-form">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h3 class="fs-4 mb-1">My Jobs</h3>
+                                    <h3 class="fs-4 mb-1">Jobs Applied</h3>
                                 </div>
-                                <div style="margin-top: -10px;">
+                                {{-- <div style="margin-top: -10px;">
                                     <a href="{{ route('account.createJob') }}" class="btn btn-primary">Post a Job</a>
-                                </div>
+                                </div> --}}
 
                             </div>
                             <div class="table-responsive">
@@ -53,7 +53,7 @@
                                     <thead class="bg-light">
                                         <tr>
                                             <th scope="col">Title</th>
-                                            <th scope="col">Job Created</th>
+                                            <th scope="col">Applied Date</th>
                                             <th scope="col">Applicants</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Action</th>
@@ -61,18 +61,20 @@
                                     </thead>
                                     <tbody class="border-0">
 
-                                        @if ($jobs->isNotEmpty())
-                                            @foreach ($jobs as $job)
+                                        @if ($jobApplications->isNotEmpty())
+                                            @foreach ($jobApplications as $jobApplication)
                                                 <tr class="active">
                                                     <td>
-                                                        <div class="job-name fw-500">{{ $job->title }}</div>
-                                                        <div class="info1">{{ $job->jobType->name }}. {{ $job->location }}
+                                                        <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
+                                                        <div class="info1">{{ $jobApplication->job->jobType->name }}.
+                                                            {{ $jobApplication->job->location }}
                                                         </div>
                                                     </td>
-                                                    <td>{{ \carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</td>
+                                                    <td>{{ \carbon\Carbon::parse($jobApplication->job->created_at)->format('d M, Y') }}
+                                                    </td>
                                                     <td>0 Applications</td>
                                                     <td>
-                                                        @if ($job->status == 1)
+                                                        @if ($jobApplication->job->status == 1)
                                                             <div class="job-status text-capitalize">active</div>
                                                         @else
                                                             <div class="job-status text-capitalize">Block</div>
@@ -85,19 +87,15 @@
                                                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                             </button>
                                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                                <li><a class="dropdown-item"
-                                                                        href="{{ route('jobDetail', $job->id) }}"> <i
+                                                                <li><a class="dropdown-item" href="{{ route('jobDetail',$jobApplication->job_id) }}"> <i
                                                                             class="fa fa-eye" aria-hidden="true"></i>
                                                                         View</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="{{ route('account.editJob', $job->id) }}"><i
-                                                                            class="fa fa-edit" aria-hidden="true"></i>
-                                                                        Edit</a></li>
+                                                               
                                                                 <li><a class="btn btn-danger"
-                                                                        onclick="deleteJob({{ $job->id }});"
+                                                                        onclick="removeJob({{ $jobApplication->job_id }});"
                                                                         href="#"><i class="fa fa-trash"
                                                                             aria-hidden="true"></i>
-                                                                        Delete</a></li>
+                                                                        Remove</a></li>
 
                                                             </ul>
                                                         </div>
@@ -112,7 +110,7 @@
                             </div>
                         </div>
                     </div>
-                    {{ $jobs->links() }}
+                    {{ $jobApplications->links() }}
                 </div>
             </div>
             </div>
@@ -120,7 +118,7 @@
     @endsection
 
     <script>
-        function deleteJob(jobId) {
+        function removeJob(id) {
 
             Swal.fire({
                 title: "Are you sure?",
@@ -129,105 +127,23 @@
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Yes, remove it!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '{{ route('account.deleteJob') }}',
+                        url: '{{ route('account.removeJob') }}',
                         type: 'post',
-                        data: {
-                            jobId: jobId
-                        },
+                        data: {id: id},
                         success: function(response) {
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success"
-                            }).then(() => {
-
-                                window.location.href = '{{ route('account.myjobs') }}';
-                            });
-
+                            window.location.href = '{{ route('myJobApplications') }}';
                         }
-
                     });
-
-
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
                 }
             });
         }
     </script>
-
-
-
-    {{-- <script>
-    function deleteJob(jobId) {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '{{ route("account.deleteJob") }}',
-                    type: 'post',
-                    data: { jobId: jobId },
-                    success: function(response) {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your job has been deleted.",
-                            icon: "success"
-                        }).then(() => {
-                            window.location.href = '{{ route("account.myjobs") }}';
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        Swal.fire({
-                            title: "Error!",
-                            text: "There was an error deleting the job.",
-                            icon: "error"
-                        });
-                    }
-                });
-            }
-        });
-    }
-</script> --}}
-
-    {{-- <script>
-            function deleteJob() {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        $.ajax({
-                    url: '{{ route("account.deleteJob") }}',
-                    type: 'post',
-                    data: { jobId: jobId },
-                    dataType: 'json'
-                    success: function(response){
-                        windown.location.href='{{ route('account.myjobs') }}';
-                    }
-
-
-                });
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                        });
-                    }
-                });
-            }
-        </script> --}}
