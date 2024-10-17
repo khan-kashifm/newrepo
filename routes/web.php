@@ -25,6 +25,7 @@ Route::group(['account'], function () {
         Route::post("/account/process-register", [AccountController::class, "processRegistration"])->name("account.processRegistration");
         Route::get("/account/login", [AccountController::class, "login"])->name("account.login");
         Route::post("/account/authenticate", [AccountController::class, "authenticate"])->name("account.authenticate");
+        
     });
 
     // Authenticated Routes
@@ -46,6 +47,7 @@ Route::group(['account'], function () {
         Route::get("/account/saved-jobs", [AccountController::class, "savedJobs"])->name("account.savedJobs");
         Route::post("/apply-job", [JobsController::class, "applyJob"])->name("applyJob");
         Route::post("/saved-job", [JobsController::class, "savedJob"])->name("savedJob");
-
+        Route::post("/account/remove-saved-job", [AccountController::class, "removeSavedJob"])->name("account.removeSavedJob");
+        Route::post("/update-password", [AccountController::class, "updatePassword"])->name("account.updatePassword");
     });
 });

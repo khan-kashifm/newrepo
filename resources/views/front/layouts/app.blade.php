@@ -14,8 +14,10 @@
     <link rel="stylesheet"
         href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
+
     <!-- Fav Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="#" />
+
 </head>
 
 <body data-instant-intensity="mousedown">
@@ -34,7 +36,7 @@
                             <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('jobs')}}">Find Jobs</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('jobs') }}">Find Jobs</a>
                         </li>
                     </ul>
                     @if (!Auth::check())
@@ -44,7 +46,7 @@
                         <a class="btn btn-outline-primary me-2" href="{{ route('account.profile') }}"
                             type="submit">Account</a>
                     @endif
-                    <a class="btn btn-primary" href="{{ route('account.createJob')}}" type="submit">Post a Job</a>
+                    <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Post a Job</a>
                 </div>
             </div>
         </nav>
@@ -88,6 +90,9 @@
     <script src="{{ asset('assets/js/slick.min.js') }}"></script>
     <script src="{{ asset('assets/js/lightbox.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <!-- jQuery (necessary for the JavaScript to work) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
     <script>
