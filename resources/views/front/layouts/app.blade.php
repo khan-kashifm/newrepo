@@ -43,6 +43,10 @@
                         <a class="btn btn-outline-primary me-2" href="{{ route('account.login') }}"
                             type="submit">Login</a>
                     @else
+                        @if (Auth::user()->role == 'admin')
+                            <a class="btn btn-outline-primary me-2" href="{{ route('admin.dashboard') }}"
+                                type="submit">Admin</a>
+                        @endif
                         <a class="btn btn-outline-primary me-2" href="{{ route('account.profile') }}"
                             type="submit">Account</a>
                     @endif
@@ -80,7 +84,7 @@
 
     <footer class="bg-dark py-3 bg-2">
         <div class="container">
-            <p class="text-center text-white pt-3 fw-bold fs-6">© 2023 xyz company, all right reserved</p>
+            <p class="text-center text-white pt-3 fw-bold fs-6">© 2024 xyz company, All Rights Reserved</p>
         </div>
     </footer>
     <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
