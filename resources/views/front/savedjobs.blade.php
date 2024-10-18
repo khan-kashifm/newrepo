@@ -82,7 +82,6 @@
                                                                 </a>
                                                             </ul>
                                                         </div>
-                                                        
                                                     </td>
                                                 </tr>
                                             @endforeach

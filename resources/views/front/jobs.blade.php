@@ -137,18 +137,21 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                @else
-                                    <div class="col-md-4"> Jobs Not Found</div>
-                                @endif
-
-
-
-                            </div>
+                            </div class="col-md-12 ">
+                            {{ $jobs->withQuerySring()->links() }}
                         </div>
+                    @else
+                        <div class="col-md-4"> Jobs Not Found</div>
+                        @endif
+
+
+
                     </div>
                 </div>
-
             </div>
+        </div>
+
+        </div>
         </div>
     </section>
 

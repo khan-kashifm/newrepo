@@ -61,7 +61,7 @@ class JobsController extends Controller
             $jobs = $jobs->where('experience', $request->experience);
         }
 
-        $jobs = $jobs->with('jobType')->orderBy('created_at', 'DESC')->paginate(9);
+        $jobs = $jobs->with('jobType')->orderBy('created_at', 'DESC')->paginate(6);
 
 
 

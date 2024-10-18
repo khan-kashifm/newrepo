@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\admin\DashboardController;
-use App\Http\Controllers\admin\UserController;
+use App\Models\Job;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobsController;
-use Illuminate\Support\Facades\Route;
-
 use function PHPUnit\Framework\callback;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\admin\JobController;
+
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\DashboardController;
 
 
 Route::get("/", [HomeController::class, "index"])->name("home");
@@ -27,6 +29,11 @@ Route::group(['account'], function () {
         Route::post("/account/process-register", [AccountController::class, "processRegistration"])->name("account.processRegistration");
         Route::get("/account/login", [AccountController::class, "login"])->name("account.login");
         Route::post("/account/authenticate", [AccountController::class, "authenticate"])->name("account.authenticate");
+
+        Route::get("/account/forgot-password", [AccountController::class, "forgotPassword"])->name("account.forgotPassword");
+        Route::post("/account/process-forgot-password", [AccountController::class, "processForgotPassword"])->name("account.processForgotPassword");
+        Route::get("/reset-password/{token}", [AccountController::class, "resetPassword"])->name("account.resetPassword");
+        Route::post("/account/process-reset-password", [AccountController::class, "processResetPassword"])->name("account.processResetPassword");
     });
 
     // Authenticated Routes
@@ -56,6 +63,13 @@ Route::group(['account'], function () {
             Route::get("/dashboard", [DashboardController::class, "index"])->name("admin.dashboard");
             Route::get("/users", [UserController::class, "index"])->name("admin.users");
             Route::post("/delete-user", [UserController::class, "deleteUser"])->name("admin.deleteUser");
+            Route::get("/edit-user/{id}", [UserController::class, "editUser"])->name("admin.editUser");
+            Route::post('/update-user/{id}', [UserController::class, 'updateUser'])->name('admin.updateUser');
+            Route::get("/jobs", [JobController::class, "index"])->name("admin.jobs");
+            Route::post("/delete-job", [JobController::class, "deleteJob"])->name("admin.deleteJob");
+            Route::get("/edit-job/{id}", [JobController::class, "editJob"])->name("admin.editJob");
+            Route::post("/update-job/{id}", [JobController::class, "updateJob"])->name("admin.updateJob");
+            Route::get("/job-applications", [JobController::class, "adminjobApplications"])->name("admin.jobApplications");
 
         });
 });

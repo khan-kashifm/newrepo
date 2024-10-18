@@ -93,7 +93,7 @@
                                                                         href="{{ route('account.editJob', $job->id) }}"><i
                                                                             class="fa fa-edit" aria-hidden="true"></i>
                                                                         Edit</a></li>
-                                                                <li><a class="btn btn-danger"
+                                                                <li><a class="btn btn-danger dropdown-item"
                                                                         onclick="deleteJob({{ $job->id }});"
                                                                         href="#"><i class="fa fa-trash"
                                                                             aria-hidden="true"></i>
