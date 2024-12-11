@@ -16,8 +16,8 @@ Route::get("/", [HomeController::class, "index"])->name("home");
 Route::get("/welcome", [HomeController::class, "welcome"])->name("welcome");
 Route::get("/jobs", [JobsController::class, "index"])->name("jobs");
 Route::get("/jobs/detail/{id}", [JobsController::class, "detail"])->name("jobDetail");
-
-
+Route::get('/test',[AccountController::class,'getname']);
+Route::get("/account/profile", [AccountController::class, "profile"])->name("account.profile");
 // Route::post("/account/process-login",[AccountController::class,"processLogin"])->name("account.processLogin");
 
 Route::group(['account'], function () {
@@ -26,7 +26,7 @@ Route::group(['account'], function () {
     Route::group(['middleware' => 'guest'], function () {
 
         Route::get("/account/register", [AccountController::class, "registration"])->name("account.registration");
-        Route::post("/account/process-register", [AccountController::class, "processRegistration"])->name("account.processRegistration");
+        Route::post("/account/register", [AccountController::class,"processRegistration"])->name("account.processRegistration");
         Route::get("/account/login", [AccountController::class, "login"])->name("account.login");
         Route::post("/account/authenticate", [AccountController::class, "authenticate"])->name("account.authenticate");
 

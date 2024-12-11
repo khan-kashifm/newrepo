@@ -23,7 +23,17 @@ class JobsController extends Controller
         $jobTypes = JobType::where('status', 1)->get();
 
         $jobs = Job::where('status', 1);
-
+       
+        $data = [
+            'status' => 'true',
+            'jobs' => $jobs->paginate(5),
+        ];
+        if ($request->wantsJson()) {
+           
+            return response()->json($data);
+        }
+        
+       
         //Search using keyword
 
         if (!empty($request->keyword)) {
@@ -71,11 +81,13 @@ class JobsController extends Controller
             'jobs' => $jobs,
             'jobTypeArray' => $jobTypeArray,
         ]);
+
+       
     }
 
 
 
-    public function detail($id)
+    public function detail(Request $request,$id)
     {
         // dd($id);
         $job = Job::where([
@@ -105,6 +117,26 @@ class JobsController extends Controller
         ->get();
         // dd($applications);
 
+
+        $data = [
+            'status' => 'true',
+            'job' => $job,
+        ];
+        
+        if ($job == null) {
+          
+            $data = [
+                'status' => 'false',
+                'message' => 'Job not found.',
+            ];
+        }
+        
+        if ($request->wantsJson()) {
+        
+            return response()->json($data);
+        }
+        
+        
         return view("front.jobdetail", [
             'job' => $job,
             'count' => $count,
@@ -178,6 +210,7 @@ class JobsController extends Controller
         return response()->json([
             'status' => 'true',
             'message' => 'You have successfully applied for this Job.',
+            'job'=>$job
 
         ]);
     }
@@ -222,6 +255,7 @@ class JobsController extends Controller
         return response()->json([
             'status' => 'true',
             'message' => 'You have successfully saved this Job.',
+            'savedjob'=>$savedjob
         ]);
     }
 }

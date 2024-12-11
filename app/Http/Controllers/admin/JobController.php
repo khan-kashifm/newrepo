@@ -29,7 +29,7 @@ class JobController extends Controller
         // dd($request->all());
 
         $job = Job::where([
-            ['id', '=', $request->id]
+            ['id',$request->id]
         ])->first();
 
 
@@ -44,8 +44,11 @@ class JobController extends Controller
 
         Job::where('id', $request->id)->delete();
 
-
         session()->flash('success', 'Job deleted successfully');
+         return response()->json([
+                'status' => 'true',
+                'message' => 'Job deleted'
+            ]);
     }
 
 

@@ -138,7 +138,7 @@
                                         </div>
                                     @endforeach
                             </div class="col-md-12 ">
-                            {{ $jobs->withQuerySring()->links() }}
+                            {{ $jobs->links() }}
                         </div>
                     @else
                         <div class="col-md-4"> Jobs Not Found</div>
